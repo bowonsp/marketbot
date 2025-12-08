@@ -1,18 +1,30 @@
 name: MarketBot
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 */6 * * *"    # Jalan setiap 6 jam
+
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - run: pip install -r requirements.txt
-      - run: python scrape.py
-        env:
-          GSHEET_CREDS: ${{ secrets.GSHEET_CREDS }}
-          SHEET_URL: ${{ secrets.SHEET_URL }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create Google creds file
+        run: echo '${{ secrets.GSHEET_CREDS }}' > creds.json
+
+      - name: Run bot
+        run: python scrape.py
