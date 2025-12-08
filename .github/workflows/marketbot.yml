@@ -1,0 +1,18 @@
+name: MarketBot
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python scrape.py
+        env:
+          GSHEET_CREDS: ${{ secrets.GSHEET_CREDS }}
+          SHEET_URL: ${{ secrets.SHEET_URL }}
