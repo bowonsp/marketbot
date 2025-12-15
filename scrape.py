@@ -1,5 +1,5 @@
 import os, gspread, pandas as pd
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 import requests
 
 def main():
