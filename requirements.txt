@@ -1,3 +1,4 @@
 gspread
-requests
+oauth2client
 pandas
+requests
